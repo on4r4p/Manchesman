@@ -1,0 +1,140 @@
+sig = "101110011011101111001111110101100011010100011010010001100001011111101001011100101110001010100111100"
+KnownPlain = "LE MOT DE PASSE EST "
+Letters = []
+BitLetters = []
+
+
+
+
+print(sig)
+print(KnownPlain)
+
+for i in KnownPlain:
+  if not i in Letters:
+     Letters.append(i)
+     BitLetters.append(i)
+
+print("len knownplain ",len(KnownPlain))
+print("len sig ",len(sig))
+print("Div known/sig ",int(len(sig)/len(KnownPlain)))
+
+
+start = 0
+end = 1
+
+saved = []
+
+for symbol in sig:
+
+  #start = 0
+  for ltr in Letters:
+     sample = sig[start:end]
+     chrleft = len(sig) - end
+     maxbit = 10 #len(sig) - len(KnownPlain)
+     unik = ltr +":"+ sample
+     stop = 0
+     end = 1 + start
+#     print("Start :",start)
+     for i in range(0,maxbit):
+        dntsave = 0
+        for bts in saved:
+          if bts == unik:
+               dntsave = 1
+          
+        if dntsave == 0 and len(sample) >1:
+               saved.append(unik)
+               
+               #print(unik)
+        end = end +1
+        sample = sig[start:end]
+        unik = ltr+ sample
+   start = start + 1
+
+cnt= 0
+#for ltr in KnownPlain:
+for ltr,l2b in zip(Letters,BitLetters):   
+     tmp = []
+     for bits in saved:
+          if bits.split(":")[0] == ltr:
+             tmp.append(bits.split(":")[1])
+#             print(bits)
+     BitLetters[cnt] = tmp       
+     cnt = cnt +1
+
+
+
+print("len Letters : ",len(Letters))
+print("lenBitLetters",len(BitLetters))
+
+
+checked = []
+saved = []
+final = []
+result= ""
+replaced = KnownPlain
+maxdeph = len(BitLetters[0])
+lxl = len(Letters) * len(Letters)
+MADmax = maxdeph * len(Letters) 
+
+  print("len saved %i vs MADmax %i"%(len(saved),MADmax) )
+#  for cnt in range(0,maxdeph):
+#   print("Boucle nbr ",cnt)
+#for cnt in range(0,maxdeph) :
+ #  replaced = KnownPlain     
+ #  for LTR in Letters:
+ #    for ltr,sample in zip(Letters,BitLetters):
+ #                   onlyonce = 0
+               #for sample in lstbit:
+ #                   tst = LTR+ltr+str(sample[cnt])
+                    #onlyonce = 0
+ #                   if not tst in saved and onlyonce != 1:
+                    #if onlyonce != 1:
+ #                        replaced = replaced.replace(ltr,sample[cnt])
+                         #print(replaced)
+ #                        saved.append(tst)
+ #                        onlyonce = 1
+
+ #    result = replaced
+
+for sample in BitLetters[0]:
+     #while sig[0:len(sample)] == sample:
+          print(sample)
+#     if not result in final:
+          #if result[0:5] == sig[0:5] :
+          #     print("\n===\nCorrect Match :\n",result)
+          #     print("Real Signal :\n",sig)
+          #else:
+          #     print("Trop long :\n",result)
+          final.append(result)
+#solution = sig
+
+for i in final:
+   for j in range(0,len(solution)):
+     if i[0:j] == solution[0:j]:
+       if j >5 :
+          print()
+          print("Best match :",j)
+          print(i)
+          print("Real sig    :",sig)
+          print("==")
+
+print("""
+     
+ 
+P 10100
+U 10101
+E 00
+L 10111
+D 10110
+  110
+O 11100
+M 11101
+C 1001
+T 1111
+H 1000
+S 010
+A 011
+
+     """)
+
+print(len(saved))
